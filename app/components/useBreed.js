@@ -8,9 +8,6 @@ const useBreed = (animal) => {
   useEffect(() => {
     if (!animal) {
       setBreeds([]);
-    }
-    if (localCache[animal]) {
-      setBreeds(localCache[animal]);
     } else {
       requestBreeds();
     }
@@ -18,7 +15,8 @@ const useBreed = (animal) => {
       setBreeds([]);
       setStatus("loading");
       const res = await fetch(
-        `http://pets-v2.dev-apis.com/breeds?animal=${animal}`
+        `http://pets-v2.dev-apis.com/breeds?animal=${animal}`,
+        { cache: "force-cache" }
       );
       const data = await res.json();
       localCache[animal] = data.breeds || [];
